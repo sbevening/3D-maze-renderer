@@ -1,12 +1,9 @@
 import pygame
-from math import pi
 
+from Renderer2D import Renderer2D
 from Vector2 import Vector2
-import RayCaster
 
 pygame.init()
-screen = pygame.display.set_mode([500, 500])
-screen.fill((255, 255, 255))
 
 clock = pygame.time.Clock()
 
@@ -23,7 +20,7 @@ maze: list[list[int]] = [
 ]
 
 playerPosition = Vector2(1, 1)
-playerDirection: int = 0
+playerDirection: float = 0
 
 def isInBounds(x, y):
     mazeHeight = len(maze)
@@ -63,6 +60,7 @@ def handleKeyPresses() -> None:
     elif keys[pygame.K_d]:
         playerDirection -= dt
 
+r2D = Renderer2D(maze, playerPosition, playerDirection)
 running = True
 while running:
     for event in pygame.event.get():
@@ -70,19 +68,7 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             handleKeyDown(event)
-    
     handleKeyPresses()
-    
-    for i in range(len(maze)):
-        for j in range(len(maze[0])):
-            if maze[i][j] == 1:
-                pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(SCALE * j, SCALE * i, SCALE, SCALE))
-            else:
-                pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(SCALE * j, SCALE * i, SCALE, SCALE))
 
-    for hit in RayCaster.castRays(maze, playerPosition.x, playerPosition.y, playerDirection - pi / 3, playerDirection + pi / 3, 10, 25):
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(SCALE * hit.hitPos.x, SCALE * hit.hitPos.y, SCALE, SCALE))
-
-    pygame.draw.rect(screen, (0, 0, 255), pygame.Rect(SCALE * playerPosition.x, SCALE * playerPosition.y, SCALE, SCALE))
-
-    pygame.display.flip()
+    r2D.tick(playerPosition, playerDirection)
+    r2D.render()
