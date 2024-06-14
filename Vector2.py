@@ -15,6 +15,14 @@ class Vector2:
         """Returns other subtracted from self, or equivalently, self + (-other)."""
         return Vector2(self.x - other.x, self.y - other.y)
     
+    def __eq__(self, other: any) -> bool:
+        if type(other) != type(self):
+            return False
+        return (self.x == other.x) and (self.y == other.y)
+    
+    def __hash__(self):
+        return hash((self.x, self.y))
+        
     def getAngleRad(self) -> float:
         """Returns signed angle between this vector and a right unit vector in radians."""
         return arctan2(self.y, self.x)

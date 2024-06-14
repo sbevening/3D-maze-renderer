@@ -24,3 +24,15 @@ def castRay(maze: list[list[int]], posX: int, posY: int, angle: float, depth: in
         if isInBounds and (not isSamePosition) and maze[pointY][pointX] == 1:
             return RayCastHit(Vector2(pointX, pointY), Vector2(posX, posY))
     return None # no hits
+
+def castRays(maze: list[list[int]], posX: int, posY: int, minAngle: float, maxAngle: float, depth: int, rayCount: int) -> set[RayCastHit]:
+    angleStep: float = (maxAngle - minAngle) / rayCount
+    theta: float = minAngle
+    hits: set[RayCastHit] = set()
+
+    while (theta < maxAngle):
+        hit: RayCastHit = castRay(maze, posX, posY, theta, depth)
+        if (hit != None):
+            hits.add(hit)
+        theta += angleStep
+    return hits

@@ -8,6 +8,14 @@ class RayCastHit:
     def __init__(self, hitPos: Vector2, originPos: Vector2) -> Self:
         self.hitPos: Vector2 = hitPos
         self.originPos: Vector2 = originPos
+
+    def __eq__(self, other: any) -> bool:
+        if (type(self) != type(other)):
+            return False
+        return self.hitPos == other.hitPos and self.originPos == other.originPos
+    
+    def __hash__(self):
+        return hash((self.hitPos, self.originPos))
     
     def distance(self) -> int:
         """euclidian distance between origin of ray and hit position."""
