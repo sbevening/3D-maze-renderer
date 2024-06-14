@@ -8,6 +8,8 @@ pygame.init()
 screen = pygame.display.set_mode([500, 500])
 screen.fill((255, 255, 255))
 
+clock = pygame.time.Clock()
+
 SCALE = 50
 
 maze: list[list[int]] = [
@@ -35,7 +37,7 @@ def movePlayer(dx: int, dy: int) -> Vector2:
         return Vector2(newX, newY)
     return playerPosition
 
-def handleKey(e: pygame.event) -> None:
+def handleKeyDown(e: pygame.event) -> None:
     global playerDirection
     global playerPosition
     match e.key:
@@ -47,13 +49,19 @@ def handleKey(e: pygame.event) -> None:
             playerPosition = movePlayer(1, 0)
         case pygame.K_DOWN:
             playerPosition = movePlayer(0, 1)
-        case pygame.K_a:
-            playerDirection += 0.1
-        case pygame.K_d:
-            playerDirection -= 0.1
         case _:
             pass
-    # print(f"{playerPosition.x}, {playerPosition.y}")
+
+def handleKeyPresses() -> None:
+    global playerDirection
+    global playerPosition
+    dt: int = clock.tick() / 1000
+    
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_a]:
+        playerDirection += dt
+    elif keys[pygame.K_d]:
+        playerDirection -= dt
 
 running = True
 while running:
@@ -61,7 +69,9 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            handleKey(event)
+            handleKeyDown(event)
+    
+    handleKeyPresses()
     
     for i in range(len(maze)):
         for j in range(len(maze[0])):
@@ -70,7 +80,7 @@ while running:
             else:
                 pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(SCALE * j, SCALE * i, SCALE, SCALE))
 
-    for hit in RayCaster.castRays(maze, playerPosition.x, playerPosition.y, playerDirection - pi / 2, playerDirection + pi / 2, 10, 10):
+    for hit in RayCaster.castRays(maze, playerPosition.x, playerPosition.y, playerDirection - pi / 3, playerDirection + pi / 3, 10, 25):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(SCALE * hit.hitPos.x, SCALE * hit.hitPos.y, SCALE, SCALE))
 
     pygame.draw.rect(screen, (0, 0, 255), pygame.Rect(SCALE * playerPosition.x, SCALE * playerPosition.y, SCALE, SCALE))
