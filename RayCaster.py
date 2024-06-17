@@ -1,4 +1,4 @@
-from math import sin, cos
+from math import sin, cos, floor, pi
 
 from RayCastHit import RayCastHit
 from Vector2 import Vector2
@@ -26,11 +26,12 @@ def castRay(maze: list[list[int]], posX: int, posY: int, angle: float, depth: in
     return None # no hits
 
 def castRays(maze: list[list[int]], posX: int, posY: int, minAngle: float, maxAngle: float, depth: int, rayCount: int) -> set[RayCastHit]:
+    """Casts a given number of rays at equal intervals in a range of angles with a specific distance. Returns set of all unique hits."""
     angleStep: float = (maxAngle - minAngle) / rayCount
     theta: float = minAngle
     hits: set[RayCastHit] = set()
 
-    while (theta < maxAngle):
+    while (theta <= maxAngle):
         hit: RayCastHit = castRay(maze, posX, posY, theta, depth)
         if (hit != None):
             hits.add(hit)
