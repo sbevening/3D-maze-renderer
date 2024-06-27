@@ -12,6 +12,3 @@ mazeMap: list[list[int]] = [
 ]
 
 hits = RayCaster.castRays(mazeMap, 3, 3, 0, 2 * pi, 10, 10)
-
-# for hit in hits:
-#     print(f"origin: ({hit.originPos.x}, {hit.originPos.y}). hit: ({hit.hitPos.x}, {hit.hitPos.y}).")

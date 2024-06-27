@@ -5,9 +5,10 @@ from Vector2 import Vector2
 
 class RayCastHit:
     """Class to hold information about the result of a raycast."""
-    def __init__(self, hitPos: Vector2, originPos: Vector2) -> Self:
+    def __init__(self, hitPos: Vector2, originPos: Vector2, angleCast: float) -> Self:
         self.hitPos: Vector2 = hitPos
         self.originPos: Vector2 = originPos
+        self.angleCast: float = angleCast
 
     def __eq__(self, other: any) -> bool:
         if (type(self) != type(other)):
@@ -17,8 +18,8 @@ class RayCastHit:
     def __hash__(self):
         return hash((self.hitPos, self.originPos))
     
-    def distance(self) -> int:
+    def distance(self) -> float:
         """euclidian distance between origin of ray and hit position."""
         dx: int = self.hitPos.x - self.originPos.x
-        dy: int = self.hitPos.y - self.hitPos.y
-        return sqrt(dx * dx + dy + dy)
+        dy: int = self.hitPos.y - self.originPos.y
+        return sqrt(dx * dx + dy * dy)

@@ -16,24 +16,23 @@ def castRay(maze: list[list[int]], posX: int, posY: int, angle: float, depth: in
     mazeWidth = len(maze[0])
 
     for stepNum in range(STEPS):
-        pointX: int = round(posX + stepNum * stepX)
-        pointY: int = round(posY + stepNum * stepY)
+        pointX: float = posX + stepNum * stepX
+        pointY: float = posY + stepNum * stepY
         isInBounds: bool = (0 <= pointX) and (pointX < mazeWidth) and (0 <= pointY) and (pointY < mazeHeight)
         isSamePosition: bool = (pointX == posX) and (pointY == posY)
 
-        if isInBounds and (not isSamePosition) and maze[pointY][pointX] == 1:
-            return RayCastHit(Vector2(pointX, pointY), Vector2(posX, posY))
+        if isInBounds and (not isSamePosition) and maze[round(pointY)][round(pointX)] == 1:
+            return RayCastHit(Vector2(pointX, pointY), Vector2(posX, posY), angle)
     return None # no hits
 
 def castRays(maze: list[list[int]], posX: int, posY: int, minAngle: float, maxAngle: float, depth: int, rayCount: int) -> set[RayCastHit]:
     """Casts a given number of rays at equal intervals in a range of angles with a specific distance. Returns set of all unique hits."""
     angleStep: float = (maxAngle - minAngle) / rayCount
     theta: float = minAngle
-    hits: set[RayCastHit] = set()
+    hits: list[RayCastHit] = list()
 
     while (theta <= maxAngle):
         hit: RayCastHit = castRay(maze, posX, posY, theta, depth)
-        if (hit != None):
-            hits.add(hit)
+        hits.append(hit)
         theta += angleStep
     return hits

@@ -2,22 +2,25 @@ from math import pi, sin, cos
 import pygame
 
 from renderer.Renderer2D import Renderer2D
+from renderer.Renderer3D import Renderer3D
 from Vector2 import Vector2
 
 pygame.init()
 
-clock = pygame.time.Clock()
-
 SCALE = 50
 
 maze: list[list[int]] = [
-    [1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 1],
-    [1, 0, 1, 1, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 0],
-    [1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1]
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 1, 1, 0, 0, 1],
+    [1, 0, 1, 1, 1, 0, 1, 0, 0, 1],
+    [1, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+    [1, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+    [1, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 1, 1, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
 playerPosition = Vector2(1, 1)
@@ -63,6 +66,7 @@ def handleKeyDown(e: pygame.event) -> None:
 
 # Set up game loop
 r2D = Renderer2D(maze, playerPosition, playerDirection)
+r3D = Renderer3D(maze, playerPosition, playerDirection)
 running = True
 while running:
     for event in pygame.event.get():
@@ -71,5 +75,9 @@ while running:
         elif event.type == pygame.KEYDOWN:
             handleKeyDown(event)
 
+    r3D.tick(playerPosition, playerDirection)
+    r3D.render()
     r2D.tick(playerPosition, playerDirection)
     r2D.render()
+
+    pygame.display.flip()

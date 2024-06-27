@@ -3,9 +3,9 @@ from numpy import arctan2, rad2deg
 
 class Vector2:
     """Class to represent a 2D vector."""
-    def __init__(self, x: int, y: int) -> None:
-        self.x: int = x
-        self.y: int = y
+    def __init__(self, x: float, y: float) -> None:
+        self.x: float = x
+        self.y: float = y
 
     def __add__(self, other: Self) -> Self:
         """Returns the sum of self and another vector."""
