@@ -4,7 +4,13 @@ from RayCastHit import RayCastHit
 from renderer.Renderer import Renderer
 from Vector2 import Vector2
 
-SCALE = 10
+SCALE = 4
+
+COLOUR_MAP = {
+    0: (255, 255, 255),
+    1: (0, 0, 0),
+    9: (0, 255, 0)
+}
 
 class Renderer2D(Renderer):
     def __init__(self, maze: list[list[int]], playerPosition: Vector2, playerDirection: float, depth = 4) -> None:
@@ -20,10 +26,8 @@ class Renderer2D(Renderer):
     def render(self) -> None:
         for i in range(len(self.maze)):
             for j in range(len(self.maze[0])):
-                if self.maze[i][j] == 1:
-                    pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect(SCALE * j, SCALE * i, SCALE, SCALE))
-                else:
-                    pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(SCALE * j, SCALE * i, SCALE, SCALE))
+                colour = COLOUR_MAP.get(self.maze[i][j])
+                pygame.draw.rect(self.screen, colour, pygame.Rect(SCALE * j, SCALE * i, SCALE, SCALE))
 
         hits: set[RayCastHit] = super().castRays()
         for hit in hits:

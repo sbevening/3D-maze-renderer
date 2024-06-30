@@ -8,8 +8,6 @@ from Vector2 import Vector2
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-GROUND_HEIGHT = 200
-GROUND_COLOR = (64, 64, 64)
 
 class Renderer3D(Renderer):
     def __init__(self, maze: list[list[int]], playerPosition: Vector2, playerDirection: float, depth = 10) -> None:
@@ -24,13 +22,13 @@ class Renderer3D(Renderer):
         self.screen.fill((0, 0, 0))
         hits: set[RayCastHit] = super().castRays()
         step = round(SCREEN_WIDTH / len(hits))
-        pygame.draw.rect(self.screen, GROUND_COLOR, pygame.Rect(0, SCREEN_HEIGHT - 2 * GROUND_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT))
 
         for i, hit in enumerate(hits):
             if hit != None:
                 colourIntensityUnbounded = 255 / sqrt(hit.distance()) if hit.distance() != 0 else 255
-                colourIntensity = clip(colourIntensityUnbounded, 32, 255)
+                colourIntensity = clip(colourIntensityUnbounded, 128, 255)
 
                 colour = (colourIntensity, colourIntensity, colourIntensity)
                 rectHeight = SCREEN_HEIGHT * (hit.distance() / self.depth)
                 pygame.draw.rect(self.screen, colour, pygame.Rect(i * step, rectHeight, step, SCREEN_HEIGHT - 2 * rectHeight))
+                rectBottom = rectHeight + SCREEN_HEIGHT / 2
