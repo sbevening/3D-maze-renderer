@@ -61,5 +61,3 @@ def carveWall(currX: int, currY: int, maze: list[list[int]]) -> None:
         if isInBounds(maze, Vector2(nextX, nextY)) and maze[nextY][nextX] != 2:
             maze[midY][midX] = 2
             carveWall(nextX, nextY, maze)
-
-print(generateMaze(11, 11))

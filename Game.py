@@ -9,8 +9,8 @@ from Vector2 import Vector2
 pygame.init()
 
 SCALE = 50
-MAZE_WIDTH = 31
-MAZE_HEIGHT = 31
+MAZE_WIDTH = 11 # MUST BE ODD
+MAZE_HEIGHT = 11 # MUST BE ODD
 
 maze: list[list[int]] = generateMaze(MAZE_WIDTH, MAZE_HEIGHT)
 

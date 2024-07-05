@@ -1,4 +1,4 @@
-from math import sin, cos, floor, pi
+from math import atan2, sin, cos
 
 from RayCastHit import RayCastHit
 from Vector2 import Vector2
@@ -21,8 +21,8 @@ def castRay(maze: list[list[int]], posX: int, posY: int, angle: float, depth: in
         isInBounds: bool = (0 <= pointX) and (pointX < mazeWidth) and (0 <= pointY) and (pointY < mazeHeight)
         isSamePosition: bool = (pointX == posX) and (pointY == posY)
 
-        if isInBounds and (not isSamePosition) and maze[round(pointY)][round(pointX)] == 1:
-            return RayCastHit(Vector2(pointX, pointY), Vector2(posX, posY), angle)
+        if isInBounds and (not isSamePosition) and maze[round(pointY)][round(pointX)] != 0:
+            return RayCastHit(Vector2(pointX, pointY), Vector2(posX, posY), angle, maze[round(pointY)][round(pointX)])
     return None # no hits
 
 def castRays(maze: list[list[int]], posX: int, posY: int, minAngle: float, maxAngle: float, depth: int, rayCount: int) -> set[RayCastHit]:

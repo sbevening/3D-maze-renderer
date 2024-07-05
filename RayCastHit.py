@@ -5,10 +5,11 @@ from Vector2 import Vector2
 
 class RayCastHit:
     """Class to hold information about the result of a raycast."""
-    def __init__(self, hitPos: Vector2, originPos: Vector2, angleCast: float) -> Self:
+    def __init__(self, hitPos: Vector2, originPos: Vector2, angleCast: float, cellType: int) -> Self:
         self.hitPos: Vector2 = hitPos
         self.originPos: Vector2 = originPos
         self.angleCast: float = angleCast
+        self.cellType: int = cellType
 
     def __eq__(self, other: any) -> bool:
         if (type(self) != type(other)):

@@ -4,7 +4,7 @@ from RayCastHit import RayCastHit
 from renderer.Renderer import Renderer
 from Vector2 import Vector2
 
-SCALE = 4
+SCALE = 20
 
 COLOUR_MAP = {
     0: (255, 255, 255),
@@ -13,7 +13,7 @@ COLOUR_MAP = {
 }
 
 class Renderer2D(Renderer):
-    def __init__(self, maze: list[list[int]], playerPosition: Vector2, playerDirection: float, depth = 4) -> None:
+    def __init__(self, maze: list[list[int]], playerPosition: Vector2, playerDirection: float, depth = 10) -> None:
         mazeHeight = len(maze)
         mazeWidth = len(maze[0])
         self.screen = pygame.display.set_mode([mazeWidth * SCALE, mazeHeight * SCALE])
